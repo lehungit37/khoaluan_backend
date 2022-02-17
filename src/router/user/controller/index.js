@@ -1,5 +1,4 @@
 const userModel = require("../../../models/user");
-const ShortUniqueId = require("short-unique-id");
 const JWT = require("../../../common/_JWT");
 
 const userController = {

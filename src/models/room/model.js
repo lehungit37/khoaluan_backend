@@ -21,7 +21,7 @@ const RoomModel = (sequelize, DataTypes) => {
       },
       acreage: {
         // diện tích
-        type: DataTypes.STRING
+        type: DataTypes.DOUBLE
       },
       description: {
         type: DataTypes.STRING
