@@ -1,36 +1,61 @@
-const ServiceRoomModel = (sequelize, DataTypes) => {
+const PostModel = (sequelize, DataTypes) => {
   return sequelize.define(
-    "post",
+    "posts",
     {
       id: {
         type: DataTypes.STRING(20),
         primaryKey: true,
         allowNull: false
       },
+      city: {
+        type: DataTypes.STRING,
+        allowNull: false
+      },
+      district: {
+        type: DataTypes.STRING,
+        allowNull: false
+      },
+      ward: {
+        type: DataTypes.STRING
+      },
+      street: {
+        type: DataTypes.STRING
+      },
+      address: {
+        type: DataTypes.STRING,
+        allowNull: false
+      },
       title: {
-        type: DataTypes.STRING(70),
+        type: DataTypes.STRING(100),
         allowNull: false
       },
       description: {
-        //mô tả
-        type: DataTypes.STRING(1000),
+        type: DataTypes.STRING(500),
         allowNull: false
       },
-      acreage: {
-        // diện tích
-        type: DataTypes.STRING
+      infoConnect: {
+        type: DataTypes.STRING,
+        allowNull: false
       },
-      // typeRentId: {
-      //   type: DataTypes.STRING,
-      //   allowNull: false
-      // },
-      address: {
-        allowNull: false,
-        type: DataTypes.STRING
+      price: {
+        type: DataTypes.INTEGER,
+        allowNull: false
+      },
+      countDay: {
+        type: DataTypes.INTEGER,
+        allowNull: false
+      },
+      objectId: {
+        type: DataTypes.STRING,
+        defaultValue: "all"
+      },
+      imagePost: {
+        type: DataTypes.STRING,
+        defaultValue: ""
       }
     },
     { tableName: "posts" }
   );
 };
 
-module.exports = ServiceRoomModel;
+module.exports = PostModel;

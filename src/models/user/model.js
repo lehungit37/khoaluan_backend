@@ -45,6 +45,10 @@ const UserModel = (sequelize, DataTypes) => {
       isLock: {
         type: DataTypes.BOOLEAN,
         defaultValue: false
+      },
+      money: {
+        type: DataTypes.INTEGER,
+        defaultValue: 20000
       }
     },
     { tableName: "users" }

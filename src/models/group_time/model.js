@@ -1,6 +1,6 @@
-const TypePostModel = (sequelize, DataTypes) => {
+const GroupTimeModel = (sequelize, DataTypes) => {
   return sequelize.define(
-    "type_post",
+    "group_time",
     // Loại bài đâng: Vip, Thường
     {
       id: {
@@ -8,17 +8,13 @@ const TypePostModel = (sequelize, DataTypes) => {
         primaryKey: true,
         allowNull: false
       },
-      nameType: {
+      nameTime: {
         type: DataTypes.STRING,
-        allowNull: false
-      },
-      price: {
-        type: DataTypes.INTEGER(),
         allowNull: false
       }
     },
-    { tableName: "type_post" }
+    { tableName: "group_time" }
   );
 };
 
-module.exports = TypePostModel;
+module.exports = GroupTimeModel;

@@ -1,19 +1,20 @@
-const ServiceModel = (sequelize, DataTypes) => {
+const CategoriesModel = (sequelize, DataTypes) => {
   return sequelize.define(
-    "services",
+    //chuyên mục
+    "categories",
     {
       id: {
         type: DataTypes.STRING(20),
         primaryKey: true,
         allowNull: false
       },
-      name: {
+      nameCategories: {
         type: DataTypes.STRING,
         allowNull: false
       }
     },
-    { tableName: "services" }
+    { tableName: "categories" }
   );
 };
 
-module.exports = ServiceModel;
+module.exports = CategoriesModel;
