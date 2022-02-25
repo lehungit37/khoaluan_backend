@@ -4,8 +4,9 @@ const UserModel = require("./user/model");
 const PostModel = require("./post/model");
 const TypePostModel = require("./type_post/model");
 const GroupTimeModel = require("./group_time/model");
-const CategoriesModel = require("./categories/model");
 const TransactionModel = require("./transaction/model");
+const CategoriesModel = require("./categories/model");
+const Type_GroupTimeModel = require("./type_groupTime/model");
 
 const sequelize = new Sequelize("khoa_luan", "root", "qwerty123", {
   host: "localhost",
@@ -18,10 +19,12 @@ const TypePost = TypePostModel(sequelize, DataTypes);
 const GroupTime = GroupTimeModel(sequelize, DataTypes);
 const Categories = CategoriesModel(sequelize, DataTypes);
 const Transaction = TransactionModel(sequelize, DataTypes);
+const Type_GroupTime = Type_GroupTimeModel(sequelize, DataTypes);
 
 sequelize.sync({ alter: true });
 
-GroupTime.hasMany(TypePost);
+GroupTime.hasMany(Type_GroupTime);
+TypePost.hasMany(Type_GroupTime);
 TypePost.hasMany(Post);
 Categories.hasMany(Post);
 User.hasMany(Post);

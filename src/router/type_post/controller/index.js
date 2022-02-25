@@ -8,12 +8,15 @@ const typePostController = {
     return res.status(200).json(types);
   },
   createTypePost: async (req, res) => {
-    const data = req.body;
-    const uid = new ShortUniqueId({ length: 20 });
-    const id = uid();
-    const slug = helper.stringToSlug(data.name);
-    const type = await typePostModel.create({ id, slug, ...data });
-    return res.status(200).json(type);
+    try {
+      const data = req.body;
+      const uid = new ShortUniqueId({ length: 20 });
+      const id = uid();
+      const type = await typePostModel.create({ id, ...data });
+      return res.status(200).json(type);
+    } catch (error) {
+      return res.status(500).json({ messages: "Lỗi hệ thống" });
+    }
   }
 };
 

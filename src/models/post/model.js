@@ -52,6 +52,10 @@ const PostModel = (sequelize, DataTypes) => {
       imagePost: {
         type: DataTypes.STRING,
         defaultValue: ""
+      },
+      status: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: true
       }
     },
     { tableName: "posts" }
