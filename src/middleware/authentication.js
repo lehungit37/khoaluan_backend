@@ -5,7 +5,7 @@ const isAuth = async (req, res, next) => {
   if (token) {
     try {
       let authData = await _JWT.checkToken(token);
-      req.auth = authData; 
+      req.auth = authData;
       next();
     } catch (error) {
       return res.send({ message: "Mã token không hợp lệ" });

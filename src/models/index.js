@@ -7,10 +7,11 @@ const GroupTimeModel = require("./group_time/model");
 const TransactionModel = require("./transaction/model");
 const CategoriesModel = require("./categories/model");
 const Type_GroupTimeModel = require("./type_groupTime/model");
+const PermissionModel = require("./permission/model");
 
-const sequelize = new Sequelize("khoa_luan", "root", "qwerty123", {
+const sequelize = new Sequelize("khoa_luan", "root", "Hung@123", {
   host: "localhost",
-  dialect: "mysql"
+  dialect: "mysql",
 });
 
 const User = UserModel(sequelize, DataTypes);
@@ -20,6 +21,7 @@ const GroupTime = GroupTimeModel(sequelize, DataTypes);
 const Categories = CategoriesModel(sequelize, DataTypes);
 const Transaction = TransactionModel(sequelize, DataTypes);
 const Type_GroupTime = Type_GroupTimeModel(sequelize, DataTypes);
+const Permission = PermissionModel(sequelize, DataTypes);
 
 sequelize.sync({ alter: true });
 
@@ -29,13 +31,17 @@ TypePost.hasMany(Post);
 Categories.hasMany(Post);
 User.hasMany(Post);
 User.hasMany(Transaction);
+Permission.hasMany(User);
+
 Post.hasMany(Transaction);
 
 module.exports = sequelize;
-
-module.exports.User = User;
-module.exports.Post = Post;
-module.exports.TypePost = TypePost;
-module.exports.GroupTime = GroupTime;
-module.exports.Categories = Categories;
-module.exports.Transaction = Transaction;
+module.exports = {
+  User,
+  Post,
+  TypePost,
+  GroupTime,
+  Categories,
+  Transaction,
+  Permission,
+};

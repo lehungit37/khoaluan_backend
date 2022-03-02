@@ -5,51 +5,55 @@ const UserModel = (sequelize, DataTypes) => {
       id: {
         type: DataTypes.STRING(20),
         primaryKey: true,
-        allowNull: false
+        allowNull: false,
       },
       name: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
       },
       address: {
-        type: DataTypes.STRING(1000)
+        type: DataTypes.STRING(1000),
       },
       phoneNumber: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
       },
 
       email: {
         type: DataTypes.STRING,
         allowNull: false,
         validate: {
-          isEmail: true
-        }
+          isEmail: true,
+        },
       },
       userName: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
       },
       password: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
       },
       imageUrl: {
         type: DataTypes.STRING,
         validate: {
-          isUrl: true
+          isUrl: true,
         },
         defaultValue:
-          "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.landesa.org%2Fprofessionals%2Fnaome-kabanda%2Fdefault-user-image%2F&psig=AOvVaw0cLU6h3sLAU-C0NxI6-8iz&ust=1644657258392000&source=images&cd=vfe&ved=0CAsQjRxqFwoTCLCUgPCn9_UCFQAAAAAdAAAAABAD"
+          "https://img.favpng.com/17/1/20/user-interface-design-computer-icons-default-png-favpng-A0tt8aVzdqP30RjwFGhjNABpm.jpg",
       },
       isLock: {
         type: DataTypes.BOOLEAN,
-        defaultValue: false
+        defaultValue: false,
       },
       money: {
         type: DataTypes.INTEGER,
-        defaultValue: 20000
-      }
+        defaultValue: 20000,
+      },
+      isDefault: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
+      },
     },
     { tableName: "users" }
   );

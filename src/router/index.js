@@ -5,6 +5,7 @@ const typePostRouter = require("./type_post");
 const postRouter = require("./post");
 const categoriesRouter = require("./categories");
 const groupTimeRouter = require("./group_time");
+const permissionRouter = require("./permission");
 
 const routers = express.Router();
 
@@ -14,5 +15,6 @@ routers.use("/type_post", typePostRouter);
 routers.use("/post", postRouter);
 routers.use("/categories", categoriesRouter);
 routers.use("/group_time", groupTimeRouter);
+routers.use("/permission", permissionRouter);
 
 module.exports = routers;

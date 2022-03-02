@@ -7,11 +7,11 @@ const userModel = {
   },
   checkLogin: async (data) => {
     return await User.findOne({
-      attributes: ["password", "userName"],
+      attributes: ["password", "userName", "permissionId", "isLock"],
       where: {
         userName: data.userName,
-        password: data.password
-      }
+        password: data.password,
+      },
     });
   },
   getInfo: async (data) => {
@@ -23,16 +23,17 @@ const userModel = {
         "address",
         "phoneNumber",
         "imageUrl",
-        "isLock"
+        "isLock",
+        "money",
       ],
       where: {
         userName: data.data.userName,
-        password: data.data.password
-      }
+        password: data.data.password,
+      },
     });
   },
 
-  checkUser: async (userName) => {
+  checkUser: async ({ userName, email, phoneNumber }) => {
     return await User.findOne({
       attributes: [
         "id",
@@ -40,16 +41,16 @@ const userModel = {
         "address",
         "phoneNumber",
         "imageUrl",
-        "isLock"
+        "isLock",
       ],
       where: {
-        userName
-      }
+        [Op.or]: [{ userName }, { email }, { phoneNumber }],
+      },
     });
   },
   addUser: async (data) => {
     return await User.create(data);
-  }
+  },
 };
 
 module.exports = userModel;

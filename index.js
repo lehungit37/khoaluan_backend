@@ -6,7 +6,7 @@ const routers = require("./src/router");
 
 app.use(cors());
 app.use(express.json());
-app.use(express.urlencoded());
+app.use(express.urlencoded());-
 app.use(morgan("dev"));
 
 app.use("/api", routers);

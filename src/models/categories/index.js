@@ -2,7 +2,7 @@ const { Categories } = require("../index");
 
 const categoriesModel = {
   getAll: async () => {
-    return await Categories.findAll({ attributes: ["id", "nameCategories"] });
+    return await Categories.findAll({ attributes: ["id", "nameCategories"], order: [["createdAt", "ASC"]] });
   },
   add: async (dataSend) => {
     return await Categories.create(dataSend);
