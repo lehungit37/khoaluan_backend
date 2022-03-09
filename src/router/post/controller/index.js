@@ -25,20 +25,22 @@ const postController = {
     }
   },
   addPost: async (req, res) => {
-    try {
-      const data = req.body;
-      const uid = new ShortUniqueId({ length: 20 });
-      const id = uid();
-      const post = await postModel.addPost({ id, ...data });
-      if (post) {
-        return res.status(200).json(post);
-      } else {
-        return res.status(400).json({ messages: "Thêm bài dăng thất bại" });
-      }
-    } catch (error) {
-      console.log(error);
-      return res.status(500).json({ messages: "Lỗi hệ thống" });
-    }
+    // try {
+    //   const data = req.body;
+    //   const uid = new ShortUniqueId({ length: 20 });
+    //   const id = uid();
+    //   const post = await postModel.addPost({ id, ...data });
+    //   if (post) {
+    //     return res.status(200).json(post);
+    //   } else {
+    //     return res.status(400).json({ messages: "Thêm bài dăng thất bại" });
+    //   }
+    // } catch (error) {
+    //   console.log(error);
+    //   return res.status(500).json({ messages: "Lỗi hệ thống" });
+    // }
+
+    console.log(req);
   }
 };
 

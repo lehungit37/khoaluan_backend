@@ -18,7 +18,9 @@ const validation = {
     if (id) {
       next();
     } else {
-      return res.status(400).json({ messages: "ID không được để trống" });
+      return res
+        .status(400)
+        .json({ messages: "Đã có lỗi xảy ra. Vui lòng thử lại" });
     }
   }
 };

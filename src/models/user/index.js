@@ -10,8 +10,8 @@ const userModel = {
       attributes: ["password", "userName", "permissionId", "isLock"],
       where: {
         userName: data.userName,
-        password: data.password,
-      },
+        password: data.password
+      }
     });
   },
   getInfo: async (data) => {
@@ -24,16 +24,16 @@ const userModel = {
         "phoneNumber",
         "imageUrl",
         "isLock",
-        "money",
+        "money"
       ],
       where: {
         userName: data.data.userName,
-        password: data.data.password,
-      },
+        password: data.data.password
+      }
     });
   },
 
-  checkUser: async ({ userName, email, phoneNumber }) => {
+  checkUser: async ({ userName }) => {
     return await User.findOne({
       attributes: [
         "id",
@@ -41,16 +41,16 @@ const userModel = {
         "address",
         "phoneNumber",
         "imageUrl",
-        "isLock",
+        "isLock"
       ],
       where: {
-        [Op.or]: [{ userName }, { email }, { phoneNumber }],
-      },
+        userName
+      }
     });
   },
   addUser: async (data) => {
     return await User.create(data);
-  },
+  }
 };
 
 module.exports = userModel;

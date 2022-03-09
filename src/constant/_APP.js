@@ -1,5 +1,5 @@
 const ACCESS_TOKEN = "abdskadsa";
-const TOKEN_TIME_LIFE = "1h";
+const TOKEN_TIME_LIFE = "2h";
 
 module.exports = {
   ACCESS_TOKEN: ACCESS_TOKEN,

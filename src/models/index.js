@@ -9,9 +9,9 @@ const CategoriesModel = require("./categories/model");
 const Type_GroupTimeModel = require("./type_groupTime/model");
 const PermissionModel = require("./permission/model");
 
-const sequelize = new Sequelize("khoa_luan", "root", "Hung@123", {
+const sequelize = new Sequelize("khoa_luan", "root", "", {
   host: "localhost",
-  dialect: "mysql",
+  dialect: "mysql"
 });
 
 const User = UserModel(sequelize, DataTypes);
@@ -43,5 +43,5 @@ module.exports = {
   GroupTime,
   Categories,
   Transaction,
-  Permission,
+  Permission
 };

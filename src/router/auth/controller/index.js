@@ -9,7 +9,7 @@ const authController = {
     if (user) {
       if (user.isLock) {
         return res.status(400).json({
-          messages: "Tài khoản của bạn đang bị tạm khoá. Vui lòng quay lại ",
+          messages: "Tài khoản của bạn đang bị tạm khoá. Vui lòng quay lại "
         });
       } else {
         const newToken = await _JWT.makeToken(data);
@@ -19,7 +19,7 @@ const authController = {
     } else {
       return res.status(400).json({
         messages:
-          "Tên đăng nhập hoặc mật khẩu không đúng, vui lòng đăng nhập lại",
+          "Tên đăng nhập hoặc mật khẩu không đúng, vui lòng đăng nhập lại"
       });
     }
   },
@@ -27,12 +27,12 @@ const authController = {
     const data = req.body;
 
     const user = await userModel.checkUser({
-      userName: data.userName,
-      email: data.email,
-      phoneNumber: data.phoneNumber,
+      userName: data.userName
     });
     if (user) {
-      return res.json({ messages: "Tài khoản đã tồn tại, vui lòng nhập lại" });
+      return res
+        .status(400)
+        .json({ messages: "Tên đăng nhập đã tồn tại, vui lòng nhập lại" });
     } else {
       const uid = new ShortUniqueId({ length: 20 });
       const id = uid();
@@ -41,6 +41,7 @@ const authController = {
         const newUser = await userModel.addUser({ id, ...data });
         return res.json({ messages: "Đăng ký thành công", data: newUser });
       } catch (error) {
+        console.log(error);
         return res.status(500).json({ messages: "Lỗi hệ thống" });
       }
     }
@@ -66,14 +67,14 @@ const authController = {
       } else {
         return res.status(400).json({
           messages:
-            "Tên đăng nhập hoặc mật khẩu không đúng, vui lòng đăng nhập lại",
+            "Tên đăng nhập hoặc mật khẩu không đúng, vui lòng đăng nhập lại"
         });
       }
     } catch (error) {
       console.log(error);
       return res.status(500).json({ messages: "Lỗi hệ thống" });
     }
-  },
+  }
 };
 
 module.exports = authController;
