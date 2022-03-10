@@ -13,6 +13,9 @@ app.use(express.static("public/images"));
 
 app.use("/api", routers);
 
+app.use("/", (req, res, next) => {
+  res.status("404").json({ message: "Not found" });
+});
 
 const PORT = 3000;
 app.listen(PORT, () => {

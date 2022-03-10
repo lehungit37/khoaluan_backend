@@ -27,12 +27,14 @@ const authController = {
     const data = req.body;
 
     const user = await userModel.checkUser({
-      userName: data.userName
+      userName: data.userName,
+      phoneNumber: data.phoneNumber,
+      email: data.email
     });
     if (user) {
       return res
         .status(400)
-        .json({ messages: "Tên đăng nhập đã tồn tại, vui lòng nhập lại" });
+        .json({ messages: "Tài khoản đã tồn tại, vui lòng nhập lại" });
     } else {
       const uid = new ShortUniqueId({ length: 20 });
       const id = uid();

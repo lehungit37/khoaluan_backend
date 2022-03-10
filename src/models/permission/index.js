@@ -5,7 +5,7 @@ const permissionModel = {
   },
   getPermission: async () => {
     return await Permission.findAll();
-  },
+  }
 };
 
 module.exports = permissionModel;

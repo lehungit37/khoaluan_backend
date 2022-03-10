@@ -1,5 +1,6 @@
 const categoriesModel = require("../../../models/categories");
 const ShortUniqueId = require("short-unique-id");
+const helper = require("../../../common/helper");
 const categoriesController = {
   getAll: async (req, res) => {
     const data = await categoriesModel.getAll();
@@ -10,7 +11,8 @@ const categoriesController = {
       const uid = new ShortUniqueId({ length: 20 });
       const id = uid();
       const dataSend = req.body;
-      const data = await categoriesModel.add({ id, ...dataSend });
+      const slug = helper.stringToSlug(dataSend.nameCategories);
+      const data = await categoriesModel.add({ id, slug, ...dataSend });
       return res.status(200).json(data);
     } catch (error) {
       return res.status(500).json("Lỗi hệ thống");

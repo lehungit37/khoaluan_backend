@@ -1,24 +1,27 @@
-const CategoriesModel = (sequelize, DataTypes) => {
+const RelatedImagesModel = (sequelize, DataTypes) => {
   return sequelize.define(
-    //chuyên mục
-    "categories",
+    //ảnh liên quan
+    "relatedImagesList",
     {
       id: {
         type: DataTypes.STRING(20),
         primaryKey: true,
         allowNull: false
       },
-      nameCategories: {
+      url: {
         type: DataTypes.STRING,
         allowNull: false
       },
-      slug: {
+      fileName: {
+        type: DataTypes.STRING
+      },
+      postId: {
         type: DataTypes.STRING,
         allowNull: false
       }
     },
-    { tableName: "categories" }
+    { tableName: "related_images" }
   );
 };
 
-module.exports = CategoriesModel;
+module.exports = RelatedImagesModel;

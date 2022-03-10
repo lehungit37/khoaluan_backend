@@ -1,6 +1,6 @@
 const TypePostModel = (sequelize, DataTypes) => {
   return sequelize.define(
-    "type_post",
+    "typePost",
     // Loại bài đâng: Vip, Thường
     {
       id: {

@@ -7,6 +7,7 @@ const categoriesRouter = require("./categories");
 const groupTimeRouter = require("./group_time");
 const permissionRouter = require("./permission");
 const imageRouter = require("./image");
+const placeRouter = require("./place");
 
 const routers = express.Router();
 
@@ -18,5 +19,6 @@ routers.use("/categories", categoriesRouter);
 routers.use("/group_time", groupTimeRouter);
 routers.use("/permission", permissionRouter);
 routers.use("/images", imageRouter);
+routers.use("/place", placeRouter);
 
 module.exports = routers;

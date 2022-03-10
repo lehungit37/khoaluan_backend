@@ -8,6 +8,7 @@ const TransactionModel = require("./transaction/model");
 const CategoriesModel = require("./categories/model");
 const Type_GroupTimeModel = require("./type_groupTime/model");
 const PermissionModel = require("./permission/model");
+const RelatedImagesModel = require("./related_images/model");
 
 const sequelize = new Sequelize("khoa_luan", "root", "", {
   host: "localhost",
@@ -22,6 +23,7 @@ const Categories = CategoriesModel(sequelize, DataTypes);
 const Transaction = TransactionModel(sequelize, DataTypes);
 const Type_GroupTime = Type_GroupTimeModel(sequelize, DataTypes);
 const Permission = PermissionModel(sequelize, DataTypes);
+const RelatedImages = RelatedImagesModel(sequelize, DataTypes);
 
 sequelize.sync({ alter: true });
 
@@ -34,6 +36,7 @@ User.hasMany(Transaction);
 Permission.hasMany(User);
 
 Post.hasMany(Transaction);
+Post.hasMany(RelatedImages);
 
 module.exports = sequelize;
 module.exports = {
@@ -43,5 +46,6 @@ module.exports = {
   GroupTime,
   Categories,
   Transaction,
-  Permission
+  Permission,
+  RelatedImages
 };

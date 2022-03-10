@@ -33,7 +33,7 @@ const userModel = {
     });
   },
 
-  checkUser: async ({ userName }) => {
+  checkUser: async ({ userName, phoneNumber, email }) => {
     return await User.findOne({
       attributes: [
         "id",
@@ -44,7 +44,7 @@ const userModel = {
         "isLock"
       ],
       where: {
-        userName
+        [Op.or]: [{ userName }, { phoneNumber }, { email }]
       }
     });
   },
