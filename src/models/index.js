@@ -10,7 +10,7 @@ const Type_GroupTimeModel = require("./type_groupTime/model");
 const PermissionModel = require("./permission/model");
 const RelatedImagesModel = require("./related_images/model");
 
-const sequelize = new Sequelize("khoa_luan", "root", "", {
+const sequelize = new Sequelize("khoa_luan", "root", "qwerty123", {
   host: "localhost",
   dialect: "mysql"
 });

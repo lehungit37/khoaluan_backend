@@ -5,10 +5,10 @@ const postController = {
   getAllPost: async (req, res) => {
     try {
       const { query } = req;
-      const { id } = req.params;
+      const { id } = req.params; //id: type Post
       const posts = await postModel.getAll({ query, id });
-      console.log(posts);
-      return res.status(200).json(posts);
+      const totalData = await postModel.countPost(id);
+      return res.status(200).json({ data: posts, totalData });
     } catch (error) {
       console.log(error);
       return res.status(500).json({ messages: "Lỗi hệ thống" });
@@ -18,8 +18,9 @@ const postController = {
   getInfoPost: async (req, res) => {
     try {
       const { id } = req.params;
+      console.log(id);
       const infoPost = await postModel.getInfoPost(id);
-      if (Object.keys(infoPost).length === 0) {
+      if (!infoPost) {
         return res.status(400).json({ messages: "Không tìm thấy bài viết" });
       }
       return res.status(200).json(infoPost);
@@ -68,6 +69,37 @@ const postController = {
     } catch (error) {
       console.log(error);
       return res.status(500).json({ messages: "Lỗi hệ thống" });
+    }
+  },
+
+  deletePost: async (req, res) => {
+    try {
+      const { id } = req.params;
+      const data = await postModel.deletePost(id);
+      if (!data) {
+        return res.status(400).json({ messages: "Xóa bài viết thất bại" });
+      }
+
+      return res.status(200).send("OK");
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json({ messages: "Lỗi hệ thồng" });
+    }
+  },
+
+  updatePost: async (req, res) => {
+    try {
+      const { id } = req.params; // id post
+      const newPost = req.body;
+
+      const data = await postModel.updatePost({ id, newPost });
+      if (!data) {
+        return res.status(400).json({ messages: "Cập nhật bài viết thất bại" });
+      }
+      return res.status(200).json("OK");
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json({ messages: "Lỗi hệ thồng" });
     }
   }
 };
