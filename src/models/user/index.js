@@ -7,12 +7,15 @@ const userModel = {
   },
   checkLogin: async (data) => {
     return await User.findOne({
-      attributes: ["password", "userName", "permissionId", "isLock"],
+      attributes: ["password", "userName", "permissionId", "isLock", "id"],
       where: {
         userName: data.userName,
         password: data.password
       }
     });
+  },
+  checkAdmin: async (id) => {
+    return await User.findOne({ where: { id }, attributes: ["permissionId"] });
   },
   getInfo: async (data) => {
     return await User.findOne({
@@ -50,6 +53,23 @@ const userModel = {
   },
   addUser: async (data) => {
     return await User.create(data);
+  },
+  getInfoAuthorPost: async (id) => {
+    return await User.findOne({
+      where: { id },
+      attributes: ["name", "phoneNumber", "imageUrl"]
+    });
+  },
+  updatePassword: async ({ id, newPassword }) => {
+    return await User.update({ password: newPassword }, { where: { id } });
+  },
+
+  updateUser: async (userUpdate) => {
+    return await User.update(userUpdate, { where: { id: userUpdate.id } });
+  },
+
+  deleteUser: async (id) => {
+    return await User.destroy({ where: { id } });
   }
 };
 

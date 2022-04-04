@@ -4,23 +4,28 @@ const _JWT = require("../../../common/_JWT");
 
 const authController = {
   login: async (req, res) => {
-    const data = req.body;
-    const user = await userModel.checkLogin(data);
-    if (user) {
-      if (user.isLock) {
-        return res.status(400).json({
-          messages: "Tài khoản của bạn đang bị tạm khoá. Vui lòng quay lại "
-        });
+    try {
+      const data = req.body;
+      const user = await userModel.checkLogin(data);
+      if (user) {
+        if (user.isLock) {
+          return res.status(400).json({
+            messages: "Tài khoản của bạn đang bị tạm khoá. Vui lòng quay lại "
+          });
+        } else {
+          const newToken = await _JWT.makeToken(user);
+          req.headers.authorization = newToken;
+          return res.status(200).json({ token: newToken });
+        }
       } else {
-        const newToken = await _JWT.makeToken(data);
-        req.headers.authorization = newToken;
-        return res.status(200).json({ token: newToken });
+        return res.status(400).json({
+          messages:
+            "Tên đăng nhập hoặc mật khẩu không đúng, vui lòng đăng nhập lại"
+        });
       }
-    } else {
-      return res.status(400).json({
-        messages:
-          "Tên đăng nhập hoặc mật khẩu không đúng, vui lòng đăng nhập lại"
-      });
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json({ messages: "Lỗi hệ thống" });
     }
   },
   register: async (req, res) => {

@@ -39,8 +39,8 @@ const PostModel = (sequelize, DataTypes) => {
         allowNull: false
       },
       countDay: {
-        type: DataTypes.INTEGER,
-        allowNull: false
+        type: DataTypes.INTEGER
+        // allowNull: false
       },
       objectId: {
         type: DataTypes.STRING,
@@ -53,6 +53,10 @@ const PostModel = (sequelize, DataTypes) => {
       status: {
         type: DataTypes.BOOLEAN,
         defaultValue: true
+      },
+      rootLocation: {
+        type: DataTypes.STRING,
+        allowNull: false
       }
     },
     { tableName: "posts" }

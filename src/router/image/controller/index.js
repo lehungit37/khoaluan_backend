@@ -27,6 +27,7 @@ const imageController = {
   uploadMultipleImage: async (req, res) => {
     try {
       await multipleUploadMiddleware(req, res);
+
       const files = req.files;
       //không up ảnh
       if (files.length < 1) {
@@ -53,7 +54,10 @@ const imageController = {
         return res.status(200).json(dataSend);
       }
     } catch (error) {
-      return res.status(500).json({ messages: "Lỗi hệ thống" });
+      console.log(error);
+      return res
+        .status(500)
+        .json({ messages: "Đã có lỗi, Vui lòng chọn ít hơn 10 ảnh" });
     }
   },
 

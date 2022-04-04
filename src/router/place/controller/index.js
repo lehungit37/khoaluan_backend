@@ -1,5 +1,9 @@
 const axios = require("axios");
-const NodeGeocoder = require("node-geocoder");
+require("cross-fetch/polyfill");
+require("isomorphic-form-data");
+const { ApiKey } = require("@esri/arcgis-rest-auth");
+const { geocode } = require("@esri/arcgis-rest-geocoding");
+const { request } = require("@esri/arcgis-rest-request");
 
 const placeController = {
   getDistrict: async (req, res) => {
@@ -29,33 +33,28 @@ const placeController = {
   getGeoCoder: async (req, res) => {
     try {
       const { address } = req.body;
-      if (address) {
-        // const option = {
-        //   provider: "mapquest",
 
-        //   // Optional depending on the providers
-        //   httpAdapter: "https",
-        //   apiKey: "61vSK2aApccq5RySL9fXTmJzGv0Q4PMw" // for Mapquest, OpenCage, Google Premier
-        //   // formatter: null // 'gpx', 'string', ...
-        // };
+      const apiKey =
+        "AAPK85a27ae3039748a594ded3cfb1552280oJKueMa3AgGiM2hgiz3ZG82h3wOisfX3QbdvEps-hcWG7HafEtM8xVk9vO7fup-H";
+      const authentication = new ApiKey({
+        key: apiKey
+      });
 
-        // const geocoder = NodeGeocoder(option);
+      // request("https://www.arcgis.com/sharing/rest/info").then((response) =>
+      //   console.log(response)
+      // );
+      geocode({
+        address,
 
-        // const data = await geocoder.geocode(address);
-        // const mainLocation = data[0];
-        // // console.log(data);
-        // const rootLocation = `${mainLocation.latitude}, ${mainLocation.longitude}`;
+        authentication
+      }).then((response) => {
+        const formatAddress = response.candidates?.[0].address;
+        const { location } = response.candidates?.[0];
+        const rootLocation = `${location.y}, ${location.x}`;
+        console.log(response);
 
-        const ACCESS_KEY = "1152083462cf22a07a6ac55671e97791";
-
-        const url = `http://api.positionstack.com/v1/forward?access_key=${ACCESS_KEY}&query=${address}`;
-        console.log(url);
-        const xxx = await axios.get(url);
-        console.log(xxx);
-        // return res.status(200).json({ rootLocation });
-      } else {
-        return res.status(400).json("Địa chỉ sai");
-      }
+        return res.status(200).json({ address: formatAddress, rootLocation });
+      });
     } catch (error) {
       console.log(error);
       return res.status(500).json({ messages: "Lỗi hệ thống" });

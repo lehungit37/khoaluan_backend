@@ -16,6 +16,13 @@ app.use("/api", routers);
 app.use("/", (req, res, next) => {
   res.status("404").json({ message: "Not found" });
 });
+app.use((err, req, res, next) => {
+  if (err) {
+    res.statusCode = err.code || 500;
+    res.json(err);
+  }
+  next();
+});
 
 const PORT = 3000;
 app.listen(PORT, () => {

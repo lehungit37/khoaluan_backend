@@ -28,7 +28,7 @@ const upload = multer({
 });
 
 const simpleUpload = upload.single("file");
-const multipleUpload = upload.array("multiple_file", 10);
+const multipleUpload = upload.array("file", 10);
 
 const simpleUploadMiddleware = util.promisify(simpleUpload);
 const multipleUploadMiddleware = util.promisify(multipleUpload);
