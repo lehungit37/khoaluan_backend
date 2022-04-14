@@ -40,9 +40,7 @@ const placeController = {
         key: apiKey
       });
 
-      // request("https://www.arcgis.com/sharing/rest/info").then((response) =>
-      //   console.log(response)
-      // );
+    
       geocode({
         address,
 

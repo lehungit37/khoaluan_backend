@@ -38,4 +38,9 @@ router.delete(
   userController.deleteUser
 );
 
+router.post(
+  "/change_avatar",
+  authentication.isAuth,
+  userController.changeAvatar
+);
 module.exports = router;

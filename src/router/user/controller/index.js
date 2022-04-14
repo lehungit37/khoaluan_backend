@@ -16,6 +16,8 @@ const userController = {
     try {
       const token = req.headers.authorization;
       const data = await JWT.checkToken(token);
+
+      console.log({ token, data });
       if (!data) {
         return res.status(400).json({ messages: "Vui lòng đăng nhập lại" });
       }
@@ -63,10 +65,10 @@ const userController = {
       });
       if (success) {
         const newUser = { ...data, password: newPassword };
+
         const newToken = await _JWT.makeToken(newUser);
-        req.headers.authorization = newToken;
-        res.cookie("token", newToken);
-        return res.status(200).json("OK");
+
+        return res.status(200).json({ token: newToken });
       } else
         return res.status(400).json({ messages: "Cập nhật mật khẩu thất bại" });
     } catch (error) {
@@ -109,7 +111,28 @@ const userController = {
     }
   },
 
-  
+  changeAvatar: async (req, res) => {
+    try {
+      const { imageUrl } = req.body;
+      const { data } = req.auth;
+      console.log(imageUrl);
+      const success = await userModel.changeUserAvatar({
+        id: data.id,
+        imageUrl
+      });
+
+      if (success) {
+        return res.status(200).json({ imageUrl });
+      } else {
+        return res
+          .status(400)
+          .json({ messages: "Cập nhật thông tin thất bại" });
+      }
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json({ messages: "Lỗi hệ thống" });
+    }
+  }
 };
 
 module.exports = userController;

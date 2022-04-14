@@ -6,7 +6,6 @@ const userMiddleware = {
       user: req.auth,
       currentPassword
     });
-    console.log(req.auth);
 
     if (currentPassword === req.auth.data.password) {
       if (currentPassword === newPassword) {

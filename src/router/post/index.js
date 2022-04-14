@@ -10,6 +10,7 @@ router.get(
   authentication.isAuth,
   postController.getPostByUser
 );
+
 router.post("/add_post", authentication.isAuth, postController.addPost);
 router.delete(
   "/delete_post/:id",

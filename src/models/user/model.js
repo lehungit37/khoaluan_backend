@@ -36,11 +36,8 @@ const UserModel = (sequelize, DataTypes) => {
       },
       imageUrl: {
         type: DataTypes.STRING,
-        validate: {
-          isUrl: true
-        },
-        defaultValue:
-          "https://img.favpng.com/17/1/20/user-interface-design-computer-icons-default-png-favpng-A0tt8aVzdqP30RjwFGhjNABpm.jpg"
+
+        defaultValue: "http://localhost:3000/api/images/user-default.png"
       },
       isLock: {
         type: DataTypes.BOOLEAN,

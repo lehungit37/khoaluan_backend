@@ -24,8 +24,8 @@ const postController = {
       }
       const { userId, categoryId } = infoPost;
 
-      const infoAuthPost = await userModel.getInfoAuthorPost(userId);
-      const lastestPost = await postModel.getLastestPost();
+      const infoAuthPost = await userModel.getInfoAuthorPost([userId]);
+      const lastestPost = await postModel.getLastestPost(id);
       const relatedPost = await postModel.getPostByCategori(categoryId);
       const newInfoPost = { infoPost, infoAuthPost, lastestPost, relatedPost };
 
@@ -49,7 +49,6 @@ const postController = {
       return res.status(500).json({ messages: "Lỗi hệ thống" });
     }
   },
-
   getPostByUser: async (req, res) => {
     try {
       const { query } = req;
@@ -62,7 +61,14 @@ const postController = {
       return res.status(500).json({ messages: "Lỗi hệ thống" });
     }
   },
-
+  getFavoritePost: async (req, res) => {
+    try {
+      const { idPostList } = req.body;
+    } catch (error) {
+      console.log(err);
+      return res.status(500).json({ messages: "Lỗi hệ thống" });
+    }
+  },
   addPost: async (req, res) => {
     try {
       const { info, relatedImages } = req.body;

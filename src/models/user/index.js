@@ -27,7 +27,8 @@ const userModel = {
         "phoneNumber",
         "imageUrl",
         "isLock",
-        "money"
+        "money",
+        "userName"
       ],
       where: {
         userName: data.data.userName,
@@ -54,13 +55,18 @@ const userModel = {
   addUser: async (data) => {
     return await User.create(data);
   },
-  getInfoAuthorPost: async (id) => {
+  getInfoAuthorPost: async (idList) => {
     return await User.findOne({
-      where: { id },
+      where: {
+        id: {
+          [Op.or]: idList
+        }
+      },
       attributes: ["name", "phoneNumber", "imageUrl"]
     });
   },
   updatePassword: async ({ id, newPassword }) => {
+    console.log(newPassword);
     return await User.update({ password: newPassword }, { where: { id } });
   },
 
@@ -70,6 +76,17 @@ const userModel = {
 
   deleteUser: async (id) => {
     return await User.destroy({ where: { id } });
+  },
+
+  changeUserAvatar: async ({ id, imageUrl }) => {
+    return await User.update({ imageUrl }, { where: { id } });
+  },
+
+  forgetPassword: async (email) => {
+    return await User.findOne({
+      where: { email },
+      attributes: ["userName", "password"]
+    });
   }
 };
 

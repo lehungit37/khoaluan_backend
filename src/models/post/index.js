@@ -48,20 +48,21 @@ const postModel = {
       limit: parseInt(query.limit) || 15
     });
   },
-  getLastestPost: async () => {
+  getLastestPost: async (id) => {
     return await Post.findAll({
       limit: 5,
-      offset: 1,
-      attributes: ["title", "price", "createdAt"],
-      order: [["createdAt", "DESC"]]
+      offset: 0,
+      attributes: ["title", "price", "createdAt", "imagePost", "id"],
+      order: [["createdAt", "DESC"]],
+      where: { id: { [Op.ne]: id } }
     });
   },
 
   getPostByCategori: async (categoryId) => {
     return await Post.findAll({
       limit: 5,
-      offset: 1,
-      attributes: ["title", "price", "createdAt"],
+      offset: 0,
+      attributes: ["title", "price", "createdAt", "imagePost", "id"],
       order: [["createdAt", "DESC"]],
       where: {
         categoryId
