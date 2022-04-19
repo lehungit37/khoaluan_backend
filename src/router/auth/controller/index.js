@@ -3,6 +3,11 @@ const ShortUniqueId = require("short-unique-id");
 const _JWT = require("../../../common/_JWT");
 const nodemailer = require("nodemailer");
 
+const { checkToken } = require("../../../common/_JWT");
+
+const config = require("../../../config");
+const client = require("twilio")(config.accountSID, config.authToken);
+
 const transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
@@ -80,7 +85,7 @@ const authController = {
         } else {
           return res
             .status(400)
-            .json({ message: "Bạn không có quyền truy cập" });
+            .json({ messages: "Bạn không có quyền truy cập" });
         }
       } else {
         return res.status(400).json({
@@ -129,6 +134,77 @@ const authController = {
           return res
             .status(500)
             .json({ messages: "Đã có lỗi, Vui lòng thử lại" });
+        });
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json({ messages: "Lỗi hệ thống" });
+    }
+  },
+
+  authenticator: async (req, res) => {
+    try {
+      const { token } = req.body;
+
+      if (token) {
+        const { data } = await checkToken(token);
+
+        console.log(data);
+        const { permissionId } = await userModel.checkLogin(data);
+
+        if (permissionId === "admin") {
+          return res.status(200).json("OK");
+        } else {
+          return res.status(401).json("fail");
+        }
+      } else {
+        return res.status(401).json("fail");
+      }
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json({ messages: "Lỗi hệ thống" });
+    }
+  },
+
+  //change phoneNumber
+  sendCode: async (req, res) => {
+    try {
+      const { phoneNumber } = req.query;
+      // phoneNumber.charAt(0) = "+81"
+
+      console.log(phoneNumber);
+      // client.verify
+      //   .services(config.serviceID)
+      //   .verifications.create({
+      //     to: `+${phoneNumber}`,
+      //     channel: req.query.channel || "sms"
+      //   })
+      //   .then((data) => {
+      //     console.log(data);
+      //     return res.status(200).json("OK");
+      //   })
+      //   .catch((err) => {
+      //     console.log(err);
+      //   });
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json({ messages: "Lỗi hệ thống" });
+    }
+  },
+  veryfyCode: async (req, res) => {
+    try {
+      const { phoneNumber, code } = req.query;
+      client.verify
+        .services(config.serviceID)
+        .verificationChecks.create({ to: `+${phoneNumber}`, code })
+        .then((data) => {
+          const { valid } = data;
+          if (!valid) {
+            return res.status(401).json({ messages: "Mã xác nhận không đúng" });
+          }
+          return res.status(200).json("OK");
+        })
+        .catch((error) => {
+          console.log(error);
         });
     } catch (error) {
       console.log(error);

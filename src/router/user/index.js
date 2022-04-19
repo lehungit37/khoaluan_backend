@@ -4,6 +4,7 @@ const userController = require("./controller");
 const authentication = require("../../middleware/authentication");
 const app = require("../../app");
 const { checkPassword, checkAdmin } = require("./middleware");
+const userMiddleware = require("./middleware");
 
 router.get(
   "/get_all",
@@ -42,5 +43,13 @@ router.post(
   "/change_avatar",
   authentication.isAuth,
   userController.changeAvatar
+);
+
+//admin
+router.get(
+  "/admin/get_Info",
+  authentication.isAuth,
+  authentication.isAdmin,
+  userController.getInfo
 );
 module.exports = router;

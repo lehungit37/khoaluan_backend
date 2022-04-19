@@ -18,19 +18,7 @@ const userMiddleware = {
       return res.status(400).json({ messages: "Mật khẩu cũ không đúng" });
     }
   },
-  checkAdmin: async (req, res, next) => {
-    try {
-      const { id } = req.auth.data;
-      const { permissionId } = await userModel.checkAdmin(id);
-      if (permissionId === "admin") next();
-      else {
-        return res.status(400).json({ messages: "Không có quyền truy cập" });
-      }
-    } catch (error) {
-      console.log(error);
-      return res.status(500).json("Lỗi hệ thống");
-    }
-  }
+  checkAdmin: async (req, res, next) => {}
 };
 
 module.exports = userMiddleware;
