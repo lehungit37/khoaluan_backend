@@ -1,7 +1,7 @@
 const config = {
-  serviceID: "VA71a3bc29e01456c05cb900dcdf658160",
+  serviceID: "VA895ac0fa47453118c1ac32b3d5508f5d",
   accountSID: "ACb828228f68d0ccf3e0ded9ef31a48152",
-  authToken: "a848b63235d24eaf19e73f29171774ba"
+  authToken: "9d3f67abf9ee0433c0616ca6e2173099"
 };
 
 module.exports = config;

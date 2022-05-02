@@ -169,22 +169,30 @@ const authController = {
   sendCode: async (req, res) => {
     try {
       const { phoneNumber } = req.query;
-      // phoneNumber.charAt(0) = "+81"
 
-      console.log(phoneNumber);
-      // client.verify
-      //   .services(config.serviceID)
-      //   .verifications.create({
-      //     to: `+${phoneNumber}`,
-      //     channel: req.query.channel || "sms"
-      //   })
-      //   .then((data) => {
-      //     console.log(data);
-      //     return res.status(200).json("OK");
-      //   })
-      //   .catch((err) => {
-      //     console.log(err);
-      //   });
+      const arrNumber = phoneNumber.split("");
+
+      arrNumber[0] = "+84";
+
+      const newPhoneNumber = arrNumber.join("");
+
+      console.log(newPhoneNumber);
+      await client.verify
+        .services(config.serviceID)
+        .verifications.create({
+          to: `${newPhoneNumber}`,
+          channel: "sms"
+        })
+        .then((data) => {
+          console.log(data);
+          return res.status(200).json("OK");
+        })
+        .catch((err) => {
+          console.log(err);
+          return res
+            .status(400)
+            .json("Gửi mã xác nhận thất bại, vui lòng thử lại");
+        });
     } catch (error) {
       console.log(error);
       return res.status(500).json({ messages: "Lỗi hệ thống" });
@@ -193,11 +201,22 @@ const authController = {
   veryfyCode: async (req, res) => {
     try {
       const { phoneNumber, code } = req.query;
-      client.verify
+
+      const arrNumber = phoneNumber.split("");
+
+      arrNumber[0] = "+84";
+
+      const newPhoneNumber = arrNumber.join("");
+
+      console.log({ newPhoneNumber, code });
+
+      await client.verify
         .services(config.serviceID)
-        .verificationChecks.create({ to: `+${phoneNumber}`, code })
+        .verificationChecks.create({ to: `${newPhoneNumber}`, code })
         .then((data) => {
           const { valid } = data;
+
+          console.log(valid);
           if (!valid) {
             return res.status(401).json({ messages: "Mã xác nhận không đúng" });
           }
