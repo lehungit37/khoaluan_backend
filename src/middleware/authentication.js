@@ -10,11 +10,11 @@ const isAuth = async (req, res, next) => {
       next();
     } catch (error) {
       return res
-        .status(400)
+        .status(401)
         .send({ message: "Vui lòng đăng nhập để thao tác" });
     }
   } else {
-    return res.status(400).json({ message: "Vui lòng đăng nhập để thao tác" });
+    return res.status(401).json({ message: "Vui lòng đăng nhập để thao tác" });
   }
 };
 

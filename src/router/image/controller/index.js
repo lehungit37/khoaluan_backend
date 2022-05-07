@@ -55,9 +55,7 @@ const imageController = {
       }
     } catch (error) {
       console.log(error);
-      return res
-        .status(500)
-        .json({ messages: "Đã có lỗi, Vui lòng chọn ít hơn 10 ảnh" });
+      return res.status(500).json({ messages: "Đã có lỗi, vui lòng thử lại" });
     }
   },
 

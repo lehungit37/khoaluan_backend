@@ -132,6 +132,22 @@ const userController = {
       console.log(error);
       return res.status(500).json({ messages: "Lỗi hệ thống" });
     }
+  },
+
+  changePhoneNumber: async (req, res) => {
+    try {
+      const { phoneNumber, id } = req.body;
+
+      const count = await userModel.changePhoneNumber({ id, phoneNumber });
+      if (count >= 0) {
+        return res.status(200).send("OK");
+      }
+      return res
+        .status(400)
+        .json({ messages: "Thay đổi số điện thoại thất bại" });
+    } catch (error) {
+      return res.status(500).json({ messages: "Lỗi hệ thống" });
+    }
   }
 };
 

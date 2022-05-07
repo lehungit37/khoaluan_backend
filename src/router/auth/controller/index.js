@@ -2,6 +2,7 @@ const userModel = require("../../../models/user");
 const ShortUniqueId = require("short-unique-id");
 const _JWT = require("../../../common/_JWT");
 const nodemailer = require("nodemailer");
+const _ = require("lodash");
 
 const { checkToken } = require("../../../common/_JWT");
 
@@ -101,40 +102,12 @@ const authController = {
 
   forgetPassword: async (req, res) => {
     try {
-      const { email } = req.body;
+      const { phoneNumber, newPassword } = req.body;
 
-      const data = await userModel.forgetPassword(email);
+      const data = await userModel.forgetPassword({ phoneNumber, newPassword });
 
-      if (!data) {
-        return res
-          .status(400)
-          .json({ messages: "Địa chỉ email không tìm thấy. Vui lòng thử lại" });
-      }
-
-      const { userName, password } = data;
-      const option = {
-        from: '"FastRoom Đà Nẵng" <fastroomdanang@gmail.com>',
-        to: email,
-        subject: "Lấy lại thông tin đăng nhập !!!",
-        html: `<b>FastRoom Đà Nẵng xin chào</b><br>
-            <p>Vui lòng bảo mật thông tin đăng nhập của bạn cẩn thận.</p>
-            <p>Tên đăng nhập: ${userName}</p>
-            <p>Mật khẩu: ${password}</p>
-      `
-      };
-
-      await transporter
-        .sendMail(option)
-        .then((info) => {
-          console.log(info);
-          return res.status(200).json({ success: true });
-        })
-        .catch((err) => {
-          console.log(err);
-          return res
-            .status(500)
-            .json({ messages: "Đã có lỗi, Vui lòng thử lại" });
-        });
+      if (data > 0) return res.status(200).json("OK");
+      return res.status(400).json({ messages: "Thay đổi mật khẩu thất bại" });
     } catch (error) {
       console.log(error);
       return res.status(500).json({ messages: "Lỗi hệ thống" });
@@ -170,29 +143,32 @@ const authController = {
     try {
       const { phoneNumber } = req.query;
 
-      const arrNumber = phoneNumber.split("");
+      const data = await userModel.checkPhoneNumber(phoneNumber);
 
-      arrNumber[0] = "+84";
+      if (data) {
+        try {
+          const arrNumber = phoneNumber.split("");
 
-      const newPhoneNumber = arrNumber.join("");
+          arrNumber[0] = "+84";
 
-      console.log(newPhoneNumber);
-      await client.verify
-        .services(config.serviceID)
-        .verifications.create({
-          to: `${newPhoneNumber}`,
-          channel: "sms"
-        })
-        .then((data) => {
-          console.log(data);
-          return res.status(200).json("OK");
-        })
-        .catch((err) => {
-          console.log(err);
-          return res
-            .status(400)
-            .json("Gửi mã xác nhận thất bại, vui lòng thử lại");
-        });
+          const newPhoneNumber = arrNumber.join("");
+
+          const result = await client.verify
+            .services(config.serviceID)
+            .verifications.create({
+              to: `${newPhoneNumber}`,
+              channel: "sms"
+            });
+
+          return res.status(200).send("OK");
+        } catch (error) {
+          console.log(error);
+          return res.status(400).json({ messages: "Vui lòng thử lại sau 1p" });
+        }
+      } else
+        return res
+          .status(400)
+          .json({ messages: "Số điện thoại không tìm thấy. Vui lòng thử lại" });
     } catch (error) {
       console.log(error);
       return res.status(500).json({ messages: "Lỗi hệ thống" });

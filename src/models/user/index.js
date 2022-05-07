@@ -66,7 +66,6 @@ const userModel = {
     });
   },
   updatePassword: async ({ id, newPassword }) => {
-    console.log(newPassword);
     return await User.update({ password: newPassword }, { where: { id } });
   },
 
@@ -82,11 +81,19 @@ const userModel = {
     return await User.update({ imageUrl }, { where: { id } });
   },
 
-  forgetPassword: async (email) => {
-    return await User.findOne({
-      where: { email },
-      attributes: ["userName", "password"]
-    });
+  forgetPassword: async ({ phoneNumber, newPassword }) => {
+    return await User.update(
+      { password: newPassword },
+      { where: { phoneNumber } }
+    );
+  },
+
+  checkPhoneNumber: async (phoneNumber) => {
+    return await User.findOne({ where: { phoneNumber } });
+  },
+
+  changePhoneNumber: async ({ id, phoneNumber }) => {
+    return await User.update({ phoneNumber }, { where: { id } });
   }
 };
 

@@ -44,6 +44,11 @@ router.post(
   authentication.isAuth,
   userController.changeAvatar
 );
+router.post(
+  "/change_phoneNumber",
+  authentication.isAuth,
+  userController.changePhoneNumber
+);
 
 //admin
 router.get(
