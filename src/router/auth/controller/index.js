@@ -143,32 +143,25 @@ const authController = {
     try {
       const { phoneNumber } = req.query;
 
-      const data = await userModel.checkPhoneNumber(phoneNumber);
+      try {
+        const arrNumber = phoneNumber.split("");
 
-      if (data) {
-        try {
-          const arrNumber = phoneNumber.split("");
+        arrNumber[0] = "+84";
 
-          arrNumber[0] = "+84";
+        const newPhoneNumber = arrNumber.join("");
 
-          const newPhoneNumber = arrNumber.join("");
+        const result = await client.verify
+          .services(config.serviceID)
+          .verifications.create({
+            to: `${newPhoneNumber}`,
+            channel: "sms"
+          });
 
-          const result = await client.verify
-            .services(config.serviceID)
-            .verifications.create({
-              to: `${newPhoneNumber}`,
-              channel: "sms"
-            });
-
-          return res.status(200).send("OK");
-        } catch (error) {
-          console.log(error);
-          return res.status(400).json({ messages: "Vui lòng thử lại sau 1p" });
-        }
-      } else
-        return res
-          .status(400)
-          .json({ messages: "Số điện thoại không tìm thấy. Vui lòng thử lại" });
+        return res.status(200).send("OK");
+      } catch (error) {
+        console.log(error);
+        return res.status(400).json({ messages: "Vui lòng thử lại sau 1p" });
+      }
     } catch (error) {
       console.log(error);
       return res.status(500).json({ messages: "Lỗi hệ thống" });
