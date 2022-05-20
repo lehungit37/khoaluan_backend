@@ -2,6 +2,32 @@ const { Post, RelatedImages } = require("../index");
 const { Op } = require("sequelize");
 
 const postModel = {
+  getAllPost: async (query) => {
+    for (key in query) {
+      if (query[key] == "all") delete query[key];
+    }
+
+    query.price = {
+      [Op.gte]: query.from,
+      [Op.lt]: query.to
+    };
+
+    delete query.from;
+    delete query.to;
+    return await Post.findAll({
+      where: query,
+      attributes: [
+        "address",
+        "id",
+        "infoConnect",
+        "price",
+        "rootLocation",
+        "title",
+        "createdAt",
+        "imagePost"
+      ]
+    });
+  },
   getAll: async ({ query, id }) => {
     if (id !== "all") {
       return await Post.findAll({
@@ -95,6 +121,25 @@ const postModel = {
   },
   displayPost: async (id) => {
     return await Post.update({ status: 1 }, { where: { id } });
+  },
+
+  filterByPrice: async ({ from, to }) => {
+    return await Post.findAll({
+      where: {
+        price: {
+          [Op.gte]: from, // >= 6
+          [Op.lt]: to
+        }
+      }
+    });
+  },
+  filterByDistrictId: async (districtId) => {
+    console.log(districtId);
+    return await Post.findAll({
+      where: {
+        districtId: `${districtId}`
+      }
+    });
   }
 };
 

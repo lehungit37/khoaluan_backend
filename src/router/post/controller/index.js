@@ -3,6 +3,15 @@ const relatedImageModel = require("../../../models/related_images");
 const ShortUniqueId = require("short-unique-id");
 const userModel = require("../../../models/user");
 const postController = {
+  getPost: async (req, res) => {
+    const { query } = req;
+    const data = await postModel.getAllPost(query);
+
+    if (data.length === 0)
+      return res.status(400).json({ messages: "Không tìm thấy bài viết" });
+
+    return res.status(200).json({ data });
+  },
   getAllPost: async (req, res) => {
     try {
       const { query } = req;
@@ -162,6 +171,36 @@ const postController = {
       return res.status(400), json({ messages: "Hiển thị bài thất bại" });
     } catch (error) {
       console.log(error);
+      return res.status(500).json({ messages: "Lỗi hệ thống" });
+    }
+  },
+
+  filterByPrice: async (req, res) => {
+    try {
+      const { from, to } = req.body;
+      const data = await postModel.filterByPrice({ from, to });
+      if (data.length === 0) {
+        return res
+          .status(400)
+          .json({ messages: "Không tim thấy bài viết nào" });
+      }
+      return res.status(200).json({ data });
+    } catch (error) {
+      return res.status(500).json({ messages: "Lỗi hệ thống" });
+    }
+  },
+  filterByDistrict: async (req, res) => {
+    try {
+      const { districtId } = req.body;
+
+      const data = await postModel.filterByDistrictId(districtId);
+      if (data.length === 0) {
+        return res
+          .status(400)
+          .json({ messages: "Không tim thấy bài viết nào" });
+      }
+      return res.status(200).json({ data });
+    } catch (error) {
       return res.status(500).json({ messages: "Lỗi hệ thống" });
     }
   }

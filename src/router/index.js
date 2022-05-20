@@ -14,7 +14,7 @@ routers.use("/auth", authRouter);
 routers.use("/post", postRouter);
 routers.use("/categories", categoriesRouter);
 routers.use("/permission", permissionRouter);
-routers.use("/images", imageRouter);
+routers.use("/images", imageRouter);    
 routers.use("/place", placeRouter);
 
 module.exports = routers;
