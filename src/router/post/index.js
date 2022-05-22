@@ -7,7 +7,7 @@ router.get("/get_all_post", postController.getPost);
 router.get("/get_post_by_categories/:id", postController.getAllPost);
 router.get("/get_post_item/:id", postController.getInfoPost);
 router.get(
-  "/get_post_by_user",
+  "/get_post_by_user/:id",
   authentication.isAuth,
   postController.getPostByUser
 );
@@ -29,4 +29,6 @@ router.get("/display_post/:id", postController.displayPost);
 router.get("/get_info_edit/:id", postController.getPostEdit);
 router.post("/filter_by_price", postController.filterByPrice);
 router.post("/filter_by_district", postController.filterByDistrict);
+
+router.get("/get_post_admin", postController.getPostByAdmin);
 module.exports = router;

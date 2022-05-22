@@ -61,7 +61,7 @@ const postController = {
   getPostByUser: async (req, res) => {
     try {
       const { query } = req;
-      const { id } = req.auth.data;
+      const { id } = req.params;
       const postData = await postModel.getPostByUser({ userId: id, query });
       const totalData = await postModel.countPostByUser(id);
       return res.status(200).json({ postData, totalData });
@@ -200,6 +200,25 @@ const postController = {
           .json({ messages: "Không tim thấy bài viết nào" });
       }
       return res.status(200).json({ data });
+    } catch (error) {
+      return res.status(500).json({ messages: "Lỗi hệ thống" });
+    }
+  },
+
+  getPostByAdmin: async (req, res) => {
+    try {
+      const query = req.query;
+
+      const data = await postModel.getPostAdmin(query);
+
+      const totalData = await postModel.countPostAdmin();
+
+      if (data.length === 0) {
+        return res
+          .status(400)
+          .json({ messages: "Không tim thấy bài viết nào" });
+      }
+      return res.status(200).json({ data, totalData });
     } catch (error) {
       return res.status(500).json({ messages: "Lỗi hệ thống" });
     }

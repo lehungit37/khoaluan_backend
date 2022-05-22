@@ -6,12 +6,7 @@ const app = require("../../app");
 const { checkPassword, checkAdmin } = require("./middleware");
 const userMiddleware = require("./middleware");
 
-router.get(
-  "/get_all",
-  authentication.isAuth,
-  checkAdmin,
-  userController.getAll
-);
+router.get("/get_all", authentication.isAuth, userController.getAll);
 router.get("/get_info", authentication.isAuth, userController.getInfo);
 router.post(
   "/add_user",
@@ -56,5 +51,17 @@ router.get(
   authentication.isAuth,
   authentication.isAdmin,
   userController.getInfo
+);
+router.get(
+  "/lock_user/:id",
+  authentication.isAuth,
+  authentication.isAdmin,
+  userController.lockUser
+);
+router.get(
+  "/unlock_user/:id",
+  authentication.isAuth,
+  authentication.isAdmin,
+  userController.unlockUser
 );
 module.exports = router;

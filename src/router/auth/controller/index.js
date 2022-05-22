@@ -169,23 +169,47 @@ const authController = {
     try {
       const { phoneNumber, code, hash } = req.query;
 
-      const [hashValue, expires] = hash?.split(".");
+      if (phoneNumber) {
+        const [hashValue, expires] = hash?.split(".");
 
-      let now = Date.now();
+        let now = Date.now();
 
-      if (now > parseInt(expires))
-        return res.status(400).json({ messages: "Mã xác thực đã hết hạn" });
+        if (now > parseInt(expires))
+          return res.status(400).json({ messages: "Mã xác thực đã hết hạn" });
 
-      const data = `${phoneNumber}.${code}.${expires}`;
+        const data = `${phoneNumber}.${code}.${expires}`;
 
-      const newHash = cryptoJS.HmacSHA1(data, key);
-      if (newHash == hashValue)
-        return res.status(200).json({ messages: "Mã xác thực chính xác" });
-      return res.status(400).json({ messages: "Mã xác thực không đúng" });
+        const newHash = cryptoJS.HmacSHA1(data, key);
+        if (newHash == hashValue)
+          return res.status(200).json({ messages: "Mã xác thực chính xác" });
+        return res.status(400).json({ messages: "Mã xác thực không đúng" });
+      } else return res.status(400).json({ messages: "Vui lòng gửi SDT" });
     } catch (error) {
       console.log(error);
       return res.status(500).json({ messages: "Lỗi hệ thống" });
     }
+  },
+
+  //đăng ký
+  checkHasPhoneNumber: async (req, res, next) => {
+    const { phoneNumber } = req.query;
+    const data = await userModel.checkPhoneNumber(phoneNumber);
+    if (data?.id) {
+      return res
+        .status(400)
+        .json({ messages: "Số điện thoại đã được sử dụng" });
+    }
+    next();
+  },
+  //quên mật khẩu
+  checkNotPhoneNumber: async (req, res, next) => {
+    const { phoneNumber } = req.query;
+    const data = await userModel.checkPhoneNumber(phoneNumber);
+    console.log(data);
+    if (!data?.id) {
+      return res.status(400).json({ messages: "Số điện thoại không tồn tại." });
+    }
+    next();
   }
 };
 

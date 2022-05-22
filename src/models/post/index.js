@@ -140,6 +140,16 @@ const postModel = {
         districtId: `${districtId}`
       }
     });
+  },
+
+  getPostAdmin: async (query) => {
+    return await Post.findAll({
+      limit: parseInt(query?.limit),
+      offset: parseInt(query?.page) - 1
+    });
+  },
+  countPostAdmin: async () => {
+    return await Post.count();
   }
 };
 

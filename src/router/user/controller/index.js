@@ -5,8 +5,10 @@ const _JWT = require("../../../common/_JWT");
 const userController = {
   getAll: async (req, res) => {
     try {
-      const data = await userModel.getAll();
-      return res.status(200).json(data);
+      const query = req.query;
+      const data = await userModel.getAll(query);
+      const totalData = await userModel.count();
+      return res.status(200).json({ data, totalData });
     } catch (error) {
       console.log(error);
       return res.status(500).json({ messages: "Lỗi hệ thống" });
@@ -145,6 +147,27 @@ const userController = {
       return res
         .status(400)
         .json({ messages: "Thay đổi số điện thoại thất bại" });
+    } catch (error) {
+      return res.status(500).json({ messages: "Lỗi hệ thống" });
+    }
+  },
+
+  lockUser: async (req, res) => {
+    try {
+      const { id } = req.params;
+      await userModel.lockUser({ id });
+
+      return res.status(200).json({ messages: "Khóa thành công" });
+    } catch (error) {
+      return res.status(500).json({ messages: "Lỗi hệ thống" });
+    }
+  },
+  unlockUser: async (req, res) => {
+    try {
+      const { id } = req.params;
+      await userModel.unlockUser({ id });
+
+      return res.status(200).json({ messages: "Mở khóa thành công" });
     } catch (error) {
       return res.status(500).json({ messages: "Lỗi hệ thống" });
     }

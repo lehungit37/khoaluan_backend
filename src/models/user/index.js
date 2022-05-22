@@ -2,8 +2,21 @@ const { User } = require("../index");
 const { Op } = require("sequelize");
 
 const userModel = {
-  getAll: async () => {
-    return await User.findAll();
+  getAll: async (query) => {
+    return await User.findAll({
+      offset: parseInt(query.page) - 1,
+      limit: parseInt(query.limit),
+      attributes: [
+        "id",
+        "imageUrl",
+        "isDefault",
+        "isLock",
+        "name",
+        "permissionId",
+        "phoneNumber",
+        "email"
+      ]
+    });
   },
   checkLogin: async (data) => {
     return await User.findOne({
@@ -97,6 +110,16 @@ const userModel = {
 
   changePhoneNumber: async ({ id, phoneNumber }) => {
     return await User.update({ phoneNumber }, { where: { id } });
+  },
+
+  lockUser: async ({ id }) => {
+    return await User.update({ isLock: true }, { where: { id } });
+  },
+  unlockUser: async ({ id }) => {
+    return await User.update({ isLock: false }, { where: { id } });
+  },
+  count: async () => {
+    return await User.count();
   }
 };
 

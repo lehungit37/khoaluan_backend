@@ -51,7 +51,7 @@ const categoriesController = {
     const dataSend = req.body;
     const newData = await categoriesModel.update({ id, dataSend });
     if (newData[0] > 0) {
-      return res.status(200).json({ messages: "Cập nhật thành công" });
+      return res.status(200).json({ data: newData });
     } else {
       return res.status(400).json({ messages: "Cập nhật thất bại" });
     }
