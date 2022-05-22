@@ -1,8 +1,12 @@
+var cryptoJS = require("crypto-js");
 const userModel = require("../../../models/user");
 const ShortUniqueId = require("short-unique-id");
 const _JWT = require("../../../common/_JWT");
 const nodemailer = require("nodemailer");
 const _ = require("lodash");
+const otpGenerator = require("otp-generator");
+
+const key = "otp-secret-key";
 
 const { checkToken } = require("../../../common/_JWT");
 
@@ -143,25 +147,23 @@ const authController = {
     try {
       const { phoneNumber } = req.query;
 
-      try {
-        const arrNumber = phoneNumber.split("");
+      const otp = otpGenerator.generate(6, {
+        alphabets: false,
+        upperCaseAlphabets: true,
+        specialChars: false
+      });
 
-        arrNumber[0] = "+84";
+      const ttl = 1 * 60 * 1000;
+      const expires = Date.now() + ttl;
+      const data = `${phoneNumber}.${otp}.${expires}`;
 
-        const newPhoneNumber = arrNumber.join("");
+      const hash = cryptoJS.HmacSHA1(data, key);
 
-        const result = await client.verify
-          .services(config.serviceID)
-          .verifications.create({
-            to: `${newPhoneNumber}`,
-            channel: "sms"
-          });
+      const fullHash = `${hash}.${expires}`;
 
-        return res.status(200).send("OK");
-      } catch (error) {
-        console.log(error);
-        return res.status(400).json({ messages: "Vui lòng thử lại sau 1p" });
-      }
+      // console.log(hash);
+      console.log(`Mã xác thực: ${otp}`);
+      return res.status(200).json({ messages: fullHash });
     } catch (error) {
       console.log(error);
       return res.status(500).json({ messages: "Lỗi hệ thống" });
@@ -169,35 +171,47 @@ const authController = {
   },
   veryfyCode: async (req, res) => {
     try {
-      const { phoneNumber, code } = req.query;
+      const { phoneNumber, code, hash } = req.query;
 
-      const arrNumber = phoneNumber.split("");
+      const [hashValue, expires] = hash?.split(".");
 
-      arrNumber[0] = "+84";
+      let now = Date.now();
 
-      const newPhoneNumber = arrNumber.join("");
+      if (now > parseInt(expires))
+        return res.status(400).json({ messages: "Mã xác thực đã hết hạn" });
 
-      console.log({ newPhoneNumber, code });
+      const data = `${phoneNumber}.${code}.${expires}`;
 
-      await client.verify
-        .services(config.serviceID)
-        .verificationChecks.create({ to: `${newPhoneNumber}`, code })
-        .then((data) => {
-          const { valid } = data;
-
-          console.log(valid);
-          if (!valid) {
-            return res.status(401).json({ messages: "Mã xác nhận không đúng" });
-          }
-          return res.status(200).json("OK");
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+      const newHash = cryptoJS.HmacSHA1(data, key);
+      if (newHash == hashValue)
+        return res.status(200).json({ messages: "Mã xác thực chính xác" });
+      return res.status(400).json({ messages: "Mã xác thực không đúng" });
     } catch (error) {
       console.log(error);
       return res.status(500).json({ messages: "Lỗi hệ thống" });
     }
+  },
+
+  testSendCode: async (req, res) => {
+    const { phoneNumber } = req.query;
+
+    const otp = otpGenerator.generate(6, {
+      alphabets: false,
+      upperCaseAlphabets: false,
+      specialChars: false
+    });
+
+    const ttl = 1 * 60 * 1000;
+    const expires = Date.now() + ttl;
+    const data = `${phoneNumber}.${otp}.${expires}`;
+
+    const hash = cryptoJS.HmacSHA1(data, key);
+
+    const fullHash = `${hash}.${expires}`;
+
+    // console.log(hash);
+    console.log(`Mã xác thực: ${otp}`);
+    return res.status(200).json({ messages: fullHash });
   }
 };
 

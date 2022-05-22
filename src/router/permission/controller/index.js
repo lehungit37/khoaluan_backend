@@ -18,6 +18,6 @@ const permissionController = {
       console.log(error);
       return res.status(500).json({ messages: "Lỗi hệ thống" });
     }
-  },
+  }
 };
 module.exports = permissionController;

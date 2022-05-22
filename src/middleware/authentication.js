@@ -11,17 +11,18 @@ const isAuth = async (req, res, next) => {
     } catch (error) {
       return res
         .status(401)
-        .send({ message: "Vui lòng đăng nhập để thao tác" });
+        .send({ messages: "Vui lòng đăng nhập để thao tác" });
     }
   } else {
-    return res.status(401).json({ message: "Vui lòng đăng nhập để thao tác" });
+    return res.status(401).json({ messages: "Vui lòng đăng nhập để thao tác" });
   }
 };
 
 const isAdmin = async (req, res, next) => {
   try {
-    const { id } = req.auth.data;
-    const { permissionId } = await userModel.checkAdmin(id);
+    const { userName, password } = req.auth.data;
+
+    const { permissionId } = await userModel.checkAdmin({ userName, password });
     if (permissionId === "admin") next();
     else {
       return res.status(400).json({ messages: "Không có quyền truy cập" });

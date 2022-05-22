@@ -40,7 +40,6 @@ const placeController = {
         key: apiKey
       });
 
-    
       geocode({
         address,
 

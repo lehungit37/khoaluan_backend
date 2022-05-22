@@ -1,12 +1,12 @@
 class AppError {
   where;
-  message;
+  messages;
   detail;
   params;
   code;
-  constructor(where, message, detail, params, code) {
+  constructor(where, messages, detail, params, code) {
     this.where = where; //
-    this.message = message;
+    this.messages = messages;
     this.detail = detail;
     this.params = params;
     this.code = code;

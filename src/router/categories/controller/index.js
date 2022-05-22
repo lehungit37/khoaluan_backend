@@ -6,6 +6,18 @@ const categoriesController = {
     const data = await categoriesModel.getAll();
     return res.status(200).json(data);
   },
+  getAllByAdmin: async (req, res) => {
+    try {
+      const query = req.query;
+      const data = await categoriesModel.getByAdmin(query);
+      const totalData = await categoriesModel.cout();
+
+      return res.status(200).json({ data, totalData });
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json("Lỗi hệ thống");
+    }
+  },
   add: async (req, res) => {
     try {
       const uid = new ShortUniqueId({ length: 20 });

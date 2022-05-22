@@ -7,6 +7,19 @@ const categoriesModel = {
       order: [["createdAt", "ASC"]]
     });
   },
+
+  getByAdmin: async (query) => {
+    return await Categories.findAll({
+      ofoffset: query.page,
+      limit: query.limit,
+      order: [["createdAt", "ASC"]]
+    });
+  },
+
+  cout: async () => {
+    return await Categories.count();
+  },
+
   add: async (dataSend) => {
     return await Categories.create(dataSend);
   },

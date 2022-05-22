@@ -2,14 +2,35 @@ const express = require("express");
 const router = express.Router();
 const categoriesController = require("./controller");
 const validation = require("./middleware/validation");
+const authentication = require("../../middleware/authentication");
 
 router.get("/get_all", categoriesController.getAll);
-router.post("/add", validation.checkData, categoriesController.add);
-router.delete("/:id", validation.checkId, categoriesController.delete);
-router.put("/:id", categoriesController.update);
+router.get(
+  "get_all_by_admin",
+  authentication.isAuth,
+  authentication.isAdmin,
+  categoriesController.getAllByAdmin
+);
+router.post(
+  "/add",
+  authentication.isAuth,
+  authentication.isAdmin,
+  validation.checkData,
+  categoriesController.add
+);
+router.delete(
+  "/:id",
+  authentication.isAuth,
+  authentication.isAdmin,
+  validation.checkId,
+  categoriesController.delete
+);
+router.put(
+  "/:id",
+  authentication.isAuth,
+  authentication.isAdmin,
+  validation.checkData,
+  categoriesController.update
+);
 
-router.get("/*", categoriesController.notFound);
-router.post("/*", categoriesController.notFound);
-router.delete("/*", categoriesController.notFound);
-router.put("/*", categoriesController.notFound);
 module.exports = router;

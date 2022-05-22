@@ -14,8 +14,11 @@ const userModel = {
       }
     });
   },
-  checkAdmin: async (id) => {
-    return await User.findOne({ where: { id }, attributes: ["permissionId"] });
+  checkAdmin: async ({ userName, password }) => {
+    return await User.findOne({
+      where: { userName, password },
+      attributes: ["permissionId"]
+    });
   },
   getInfo: async (data) => {
     return await User.findOne({

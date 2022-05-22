@@ -140,7 +140,7 @@ const userController = {
 
       const count = await userModel.changePhoneNumber({ id, phoneNumber });
       if (count >= 0) {
-        return res.status(200).send("OK");
+        return res.status(200).json({ phoneNumber });
       }
       return res
         .status(400)
