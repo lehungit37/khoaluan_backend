@@ -10,6 +10,4 @@ router.post("/authenticator", authController.authenticator);
 router.get("/send_code", authController.sendCode);
 router.get("/veryfy", authController.veryfyCode);
 
-router.get("/test_send_code", authController.testSendCode);
-
 module.exports = router;

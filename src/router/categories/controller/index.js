@@ -10,6 +10,8 @@ const categoriesController = {
     try {
       const query = req.query;
       const data = await categoriesModel.getByAdmin(query);
+
+      console.log(data);
       const totalData = await categoriesModel.cout();
 
       return res.status(200).json({ data, totalData });

@@ -10,8 +10,8 @@ const categoriesModel = {
 
   getByAdmin: async (query) => {
     return await Categories.findAll({
-      ofoffset: query.page,
-      limit: query.limit,
+      offset: parseInt(query.page) - 1 || 0,
+      limit: parseInt(query.limit) || 15,
       order: [["createdAt", "ASC"]]
     });
   },

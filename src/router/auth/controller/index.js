@@ -147,11 +147,7 @@ const authController = {
     try {
       const { phoneNumber } = req.query;
 
-      const otp = otpGenerator.generate(6, {
-        alphabets: false,
-        upperCaseAlphabets: true,
-        specialChars: false
-      });
+      let otp = Math.floor(100000 + Math.random() * 900000);
 
       const ttl = 1 * 60 * 1000;
       const expires = Date.now() + ttl;
@@ -190,28 +186,6 @@ const authController = {
       console.log(error);
       return res.status(500).json({ messages: "Lỗi hệ thống" });
     }
-  },
-
-  testSendCode: async (req, res) => {
-    const { phoneNumber } = req.query;
-
-    const otp = otpGenerator.generate(6, {
-      alphabets: false,
-      upperCaseAlphabets: false,
-      specialChars: false
-    });
-
-    const ttl = 1 * 60 * 1000;
-    const expires = Date.now() + ttl;
-    const data = `${phoneNumber}.${otp}.${expires}`;
-
-    const hash = cryptoJS.HmacSHA1(data, key);
-
-    const fullHash = `${hash}.${expires}`;
-
-    // console.log(hash);
-    console.log(`Mã xác thực: ${otp}`);
-    return res.status(200).json({ messages: fullHash });
   }
 };
 
