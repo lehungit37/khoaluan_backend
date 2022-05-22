@@ -222,6 +222,15 @@ const postController = {
     } catch (error) {
       return res.status(500).json({ messages: "Lỗi hệ thống" });
     }
+  },
+
+  getPostLastestApp: async (req, res) => {
+    try {
+      const data = await postModel.getLastestPost();
+      return res.status(200).json({ data });
+    } catch (error) {
+      return res.status(500).json("Lỗi hệ thống");
+    }
   }
 };
 

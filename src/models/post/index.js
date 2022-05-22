@@ -150,6 +150,24 @@ const postModel = {
   },
   countPostAdmin: async () => {
     return await Post.count();
+  },
+
+  getPostlatestApp: async () => {
+    return await Post.findAll({
+      limit: 10,
+      offset: 0,
+      attributes: [
+        "address",
+        "id",
+        "infoConnect",
+        "price",
+        "rootLocation",
+        "title",
+        "createdAt",
+        " imagePost"
+      ],
+      order: [["createdAt", "DESC"]]
+    });
   }
 };
 

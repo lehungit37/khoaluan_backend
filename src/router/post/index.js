@@ -31,4 +31,5 @@ router.post("/filter_by_price", postController.filterByPrice);
 router.post("/filter_by_district", postController.filterByDistrict);
 
 router.get("/get_post_admin", postController.getPostByAdmin);
+router.get("/get_post_lastest_app", postController.getPostLastestApp);
 module.exports = router;
