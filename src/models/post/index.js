@@ -164,7 +164,7 @@ const postModel = {
         "rootLocation",
         "title",
         "createdAt",
-        " imagePost"
+        "imagePost"
       ],
       order: [["createdAt", "DESC"]]
     });

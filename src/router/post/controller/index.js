@@ -226,9 +226,12 @@ const postController = {
 
   getPostLastestApp: async (req, res) => {
     try {
-      const data = await postModel.getLastestPost();
+      const data = await postModel.getPostlatestApp();
+
+      console.log(data);
       return res.status(200).json({ data });
     } catch (error) {
+      console.log(error);
       return res.status(500).json("Lỗi hệ thống");
     }
   }
