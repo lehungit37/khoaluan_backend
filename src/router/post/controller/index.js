@@ -213,11 +213,6 @@ const postController = {
 
       const totalData = await postModel.countPostAdmin();
 
-      if (data.length === 0) {
-        return res
-          .status(400)
-          .json({ messages: "Không tim thấy bài viết nào" });
-      }
       return res.status(200).json({ data, totalData });
     } catch (error) {
       return res.status(500).json({ messages: "Lỗi hệ thống" });
@@ -230,6 +225,22 @@ const postController = {
 
       console.log(data);
       return res.status(200).json({ data });
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json("Lỗi hệ thống");
+    }
+  },
+
+  getInfoDetailPost: async (req, res) => {
+    try {
+      const { id } = req.params;
+      const infoPost = await postModel.getInfoDetailPost(id);
+
+      const { userId } = infoPost;
+      const userInfo = await userModel.getInfoByid(userId);
+      const { name } = userInfo;
+
+      return res.status(200).json({ name, infoPost });
     } catch (error) {
       console.log(error);
       return res.status(500).json("Lỗi hệ thống");

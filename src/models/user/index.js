@@ -120,6 +120,10 @@ const userModel = {
   },
   count: async () => {
     return await User.count();
+  },
+
+  getInfoByid: async (userId) => {
+    return await User.findOne({ where: { id: userId }, attributes: ["name"] });
   }
 };
 

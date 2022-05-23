@@ -1,6 +1,7 @@
 const categoriesModel = require("../../../models/categories");
 const ShortUniqueId = require("short-unique-id");
 const helper = require("../../../common/helper");
+const postModel = require("../../../models/post");
 const categoriesController = {
   getAll: async (req, res) => {
     const data = await categoriesModel.getAll();
@@ -35,8 +36,9 @@ const categoriesController = {
   delete: async (req, res) => {
     try {
       const { id } = req.params;
+      const isSuccessPost = await postModel.deleteByCategory(id);
       const isSuccess = await categoriesModel.delete(id);
-      if (isSuccess) {
+      if (isSuccess >= 0 && isSuccessPost >= 0) {
         return res.status(200).json({ messages: "Xóa danh mục thành công" });
       } else {
         return res.status(400).json({ messages: "Xóa danh mục thất bại" });

@@ -32,4 +32,5 @@ router.post("/filter_by_district", postController.filterByDistrict);
 
 router.get("/get_post_admin", postController.getPostByAdmin);
 router.get("/get_post_lastest_app", postController.getPostLastestApp);
+router.get("/get_detail_post/:id", postController.getInfoDetailPost);
 module.exports = router;

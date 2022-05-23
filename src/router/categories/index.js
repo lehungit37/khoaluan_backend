@@ -7,8 +7,8 @@ const authentication = require("../../middleware/authentication");
 router.get("/get_all", categoriesController.getAll);
 router.get(
   "/get_all_by_admin",
-  //   authentication.isAuth,
-  //   authentication.isAdmin,
+  authentication.isAuth,
+  authentication.isAdmin,
   categoriesController.getAllByAdmin
 );
 router.post(

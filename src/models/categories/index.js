@@ -1,4 +1,4 @@
-const { Categories } = require("../index");
+const { Categories, Post, RelatedImages } = require("../index");
 
 const categoriesModel = {
   getAll: async () => {

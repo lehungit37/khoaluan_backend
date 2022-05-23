@@ -15,7 +15,7 @@ const postModel = {
     delete query.from;
     delete query.to;
     return await Post.findAll({
-      where: query,
+      where: { status: true, ...query },
       attributes: [
         "address",
         "id",
@@ -167,6 +167,29 @@ const postModel = {
         "imagePost"
       ],
       order: [["createdAt", "DESC"]]
+    });
+  },
+
+  deleteByCategory: async (id) => {
+    return await Post.destroy({ where: { categoryId: id } });
+  },
+
+  getInfoDetailPost: async (id) => {
+    return await Post.findOne({
+      where: { id },
+      attributes: [
+        "address",
+        "createdAt",
+        "description",
+        "id",
+        "infoConnect",
+        "price",
+        "rootLocation",
+        "status",
+        "title",
+        "userId",
+        "infoConnect"
+      ]
     });
   }
 };
