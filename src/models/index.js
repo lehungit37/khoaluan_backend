@@ -6,9 +6,9 @@ const CategoriesModel = require("./categories/model");
 const PermissionModel = require("./permission/model");
 const RelatedImagesModel = require("./related_images/model");
 
-const sequelize = new Sequelize("khoa_luan", "root", "qwerty123", {
+const sequelize = new Sequelize("khoa_luan", "root", "Hung@123", {
   host: "localhost",
-  dialect: "mysql"
+  dialect: "mysql",
 });
 
 const User = UserModel(sequelize, DataTypes);
@@ -31,5 +31,5 @@ module.exports = {
   Post,
   Categories,
   Permission,
-  RelatedImages
+  RelatedImages,
 };
