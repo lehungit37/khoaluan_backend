@@ -7,16 +7,13 @@ const PostModel = (sequelize, DataTypes) => {
         primaryKey: true,
         allowNull: false
       },
-      city: {
+      cityId: {
         type: DataTypes.STRING,
         allowNull: false
       },
-      district: {
+      districtId: {
         type: DataTypes.STRING,
         allowNull: false
-      },
-      ward: {
-        type: DataTypes.STRING
       },
       street: {
         type: DataTypes.STRING
@@ -42,8 +39,8 @@ const PostModel = (sequelize, DataTypes) => {
         allowNull: false
       },
       countDay: {
-        type: DataTypes.INTEGER,
-        allowNull: false
+        type: DataTypes.INTEGER
+        // allowNull: false
       },
       objectId: {
         type: DataTypes.STRING,
@@ -51,11 +48,15 @@ const PostModel = (sequelize, DataTypes) => {
       },
       imagePost: {
         type: DataTypes.STRING,
-        defaultValue: ""
+        defaultValue: "http://localhost:3000/api/images/default-logo.png"
       },
       status: {
         type: DataTypes.BOOLEAN,
         defaultValue: true
+      },
+      rootLocation: {
+        type: DataTypes.STRING,
+        allowNull: false
       }
     },
     { tableName: "posts" }
